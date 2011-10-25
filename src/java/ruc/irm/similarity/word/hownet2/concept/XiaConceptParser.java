@@ -121,16 +121,19 @@ public class XiaConceptParser extends BaseConceptParser {
      *            未登录词
      * @return
      */
-    private List<String> segmentOOV(String oov_word) {
+    private List<String> segmentOOV(String oov_word, int topN) {
         List<String> results = new LinkedList<String>();
 
         String word = oov_word;
+        int count = 0;
         while (word != null && !word.equals("")) {
             String token = word;
             while (token.length() > 1 && BlankUtils.isBlank(super.getConcepts(token))) {
                 token = token.substring(1);
             }
             results.add(token);
+            count++;
+            if(count>=topN) break;
 
             word = word.substring(0, (word.length() - token.length()));
         }
@@ -155,17 +158,13 @@ public class XiaConceptParser extends BaseConceptParser {
             return oovConcepts;
         }
 
-        for (String concept_word : segmentOOV(oov_word)) {
+        //只获取倒排后的三个未识别词语，如果太多了，一方面会影响运行速度，另一方面组合过多的意义也不是很有用
+        for (String concept_word : segmentOOV(oov_word, 3)) {
             Collection<Concept> concepts = super.getConcepts(concept_word);
             if (oovConcepts.size() == 0) {
                 oovConcepts.addAll(concepts);
                 continue;
             }
-
-            // //剪枝：如果组合太多，一方面会影响运行速度，另一方面组合过多的意义也不是很有用
-            // if(oovConcepts.size()>3){
-            // break;
-            // }
 
             ConceptLinkedList tmpConcepts = new ConceptLinkedList();
             for (Concept head : concepts) {
