@@ -13,37 +13,40 @@ import ruc.irm.similarity.word.WordSimilarity;
 import ruc.irm.similarity.word.hownet2.concept.XiaConceptParser;
 
 /**
- * 基于词形和词序的句子相似度计算算法，考虑了语义因素<br/>
- * 《中文信息相似度计算理论与方法》5.4.3小节所介绍的方法，在考虑语义时，
- * 无法直接获取OnceWS(A, B)，因此，采用了两两匹配取最大值的方式。
- * 新的改进算法请参考{@code SemanticSimilarity}
+ * 《中文信息相似度计算理论与方法》5.4.3小节所介绍的基于词形和词序的句子相似度计算算法
+ * 在考虑语义时，无法直接获取OnceWS(A, B)，为此，通过记录两个句子的词语匹配对中相似度
+ * 大于某一阈值的词语对最为相同词语，计算次序相似度。
  * 
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
  */
-public class MorphoSimilarity implements SentenceSimilarity {
-    private static Log LOG = LogFactory.getLog(MorphoSimilarity.class);
+public class SemanticSimilarity implements SentenceSimilarity {
+    private static Log LOG = LogFactory.getLog(SemanticSimilarity.class);
     
     /** 词形相似度占总相似度的比重 */
-    private final double LAMBDA1 = 1.0;
+    private final double LAMBDA1 = 0.8;
     /** 词序相似度占总相似度的比重 */
-    private final double LAMBDA2 = 0.0;   
+    private final double LAMBDA2 = 0.2;   
+    
+    /** 如果两个词语的相似度大于了该阈值， 则作为相同词语，计算词序相似度 */
+    private final double GAMMA = 0.6;
+    
     /** 词语相似度的计算 */
     private WordSimilarity wordSimilarity = null;
     
     private static String FILTER_CHARS = " 　，。；？《》()｜！,.;?<>|_^…!";
     
-    private static MorphoSimilarity instance = null;
+    private static SemanticSimilarity instance = null;
     
-    public static MorphoSimilarity getInstance(){
+    public static SemanticSimilarity getInstance(){
     	if(instance == null){
-    		instance = new MorphoSimilarity();
+    		instance = new SemanticSimilarity();
     	}
     	return instance;
     }
     
-    private MorphoSimilarity(){
+    private SemanticSimilarity(){
     	LOG.debug("used hownet wordsimilarity.");
     	this.wordSimilarity = XiaConceptParser.getInstance();
     	//this.segmenter = SegmentFactory.getInstance().getParser();
@@ -75,13 +78,7 @@ public class MorphoSimilarity implements SentenceSimilarity {
         String[] firstList = filter(segment(firstSen));
         String[] secondList = filter(segment(secondSen));
         
-        double wordSim = getOccurrenceSimilarity(firstList,secondList);
-        //LOG.debug("词形相似度="+wordSim);
-        
-        double orderSim = getOrderSimilarity(firstList,secondList);
-        //LOG.debug("词序相似度="+orderSim);
-        
-        return LAMBDA1*wordSim+LAMBDA2*orderSim;
+        return calculate(firstList,secondList);
     }
        
     /**
@@ -90,15 +87,27 @@ public class MorphoSimilarity implements SentenceSimilarity {
      * @param secondList
      * @return
      */
-    public double getOccurrenceSimilarity(String[] firstList, String[] secondList){    	
-    	int max = firstList.length>secondList.length?firstList.length:secondList.length;
-    	if(max==0){
+    public double calculate(String[] firstList, String[] secondList){    	
+    	if(firstList.length == 0 || secondList.length == 0){
     		return 0;
     	}
     	
     	//首先计算出所有可能的组合
-    	double[][] scores = new double[max][max];
+    	double[][] scores = new double[firstList.length][secondList.length];
+    	
+    	//代表第1个句子对应位置是否已经被使用, 默认为未使用，即false
+    	boolean[] firstFlags = new boolean[firstList.length];
+    	
+    	//代表第2个句子对应位置是否已经被使用, 默认为未使用，即false
+        boolean[] secondFlags = new boolean[secondList.length];
+        
+        //PSecond的定义参见书中5.4.3节， 为避免无必要的初始化数组，
+        //数组中0值表示在第一个句子中没有对应的相似词语，大于0的值
+        //则表示在第一个句子中的位置（从1开始编号了）
+        int[] PSecond = new int[secondList.length];
+        
     	for(int i=0; i<firstList.length; i++){
+    	    //firstFlags[i] = false;
     		for(int j=0; j<secondList.length; j++){
     			scores[i][j] = wordSimilarity.getSimilarity(firstList[i], secondList[j]);
     		}
@@ -106,15 +115,18 @@ public class MorphoSimilarity implements SentenceSimilarity {
 
     	double total_score = 0;
     	
-    	//从scores[][]中挑选出最大的一个相似度，然后减去该元素，进一步求剩余元素中的最大相似度    	    	
-    	while(scores.length > 0){
+    	//从scores[][]中挑选出最大的一个相似度，然后减去该元素(通过Flags数组表示)，进一步求剩余元素中的最大相似度    	    	
+    	while(true){
     		double max_score = 0;
-    		int max_row = 0;
-    		int max_col = 0;
+    		int max_row = -1;
+    		int max_col = -1;
     		
     		//先挑出相似度最大的一对：<row, column, max_score> 
     		for(int i=0; i<scores.length; i++){
+    		    if(firstFlags[i]) continue;
     			for(int j=0; j<scores.length; j++){
+    			    if(secondFlags[j]) continue;
+    			    
     				if(max_score<scores[i][j]){
     					max_row = i;
     					max_col = j;
@@ -123,49 +135,46 @@ public class MorphoSimilarity implements SentenceSimilarity {
     			}
     		}
     		
-    		//从数组中去除最大的相似度，继续挑选
-        	double[][] tmp_scores = new double[scores.length-1][scores.length-1];
-    		for(int i=0; i<scores.length; i++){
-    			if(i == max_row) continue;
-    			for(int j=0; j<scores.length; j++){
-    				if(j == max_col) continue;
-    				int tmp_i = max_row>i?i:i-1;
-    				int tmp_j = max_col>j?j:j-1;
-    				tmp_scores[tmp_i][tmp_j] = scores[i][j];
-    			}
+    		if(max_row>=0) {
+    		    total_score += max_score;
+    		    firstFlags[max_row] = true;
+    		    secondFlags[max_col] = true;
+    		    if(max_score>=GAMMA) {
+    		        PSecond[max_col] = max_row+1;
+    		    }
+    		} else {
+    		    break;
     		}
-    		total_score += max_score;
-    		scores = tmp_scores;    		
     	}
     	
-    	return (2*total_score) / (firstList.length + secondList.length);
-    }
-    
-    /**
-     * 获取两个集合的词序相似度
-     * @param firstList
-     * @param secondList
-     * @return
-     */
-    public double getOrderSimilarity(String[] firstList, String[] secondList){
-    	double similarity = 0.0;
+    	double wordSim = (2*total_score) / (firstList.length + secondList.length);
     	
-    	return similarity;
-    }    
-    
-//    @SuppressWarnings("unchecked")
-//	public String[] segment(String sentence){
-//    	MPWordSegment ws = new MPWordSegment();
-//    	ws.parseReader(new StringReader(sentence));    	
-//    	Vector tokens = ws.getTokens();
-//    	String[] results = new String[tokens.size()];
-//    	for(int i=0; i<tokens.size(); i++){
-//    		Token token = (Token)tokens.get(i);
-//    		results[i] = token.termText();    		
-//    	}
-//    	
-//    	return results;
-//    }
+    	int previous = 0;
+    	int revOrdCount = 0;
+    	int onceWSSize = 0;
+    	for(int i=0; i<PSecond.length; i++) {
+    	    if(PSecond[i]>0) {
+    	        onceWSSize++;
+    	        if(previous>0 && (previous>PSecond[i])) {
+    	            revOrdCount++;
+    	        } 
+    	        previous = PSecond[i];
+    	    }
+    	}
+    	
+    	double ordSim = 0;
+    	if(onceWSSize==1) {
+    	    ordSim = 1;
+    	} else if(onceWSSize == 0) {
+    	    ordSim = 0;
+    	} else {
+    	    ordSim = 1.0 - revOrdCount*1.0/(onceWSSize-1);
+    	}
+    	
+    	System.out.println("wordSim ==> " + wordSim + ", ordSim ==> " + ordSim);
+    	
+    	return LAMBDA1*wordSim+LAMBDA2*ordSim;
+    }
     
     public String[] segment(String sentence){
     	List<Word> list = SegmentProxy.segment(sentence);
