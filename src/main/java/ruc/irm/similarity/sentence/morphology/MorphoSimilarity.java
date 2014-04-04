@@ -3,9 +3,8 @@ package ruc.irm.similarity.sentence.morphology;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ruc.irm.similarity.sentence.SegmentProxy;
 import ruc.irm.similarity.sentence.SegmentProxy.Word;
 import ruc.irm.similarity.sentence.SentenceSimilarity;
@@ -23,7 +22,7 @@ import ruc.irm.similarity.word.hownet2.concept.XiaConceptParser;
  * 
  */
 public class MorphoSimilarity implements SentenceSimilarity {
-    private static Log LOG = LogFactory.getLog(MorphoSimilarity.class);
+    private static Logger LOG = LoggerFactory.getLogger(MorphoSimilarity.class);
     
     /** 词形相似度占总相似度的比重 */
     private final double LAMBDA1 = 1.0;

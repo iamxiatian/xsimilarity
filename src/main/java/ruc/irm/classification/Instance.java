@@ -9,8 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.ictclas4j.utility.POSTag;
-
 import ruc.irm.similarity.sentence.SegmentProxy;
 import ruc.irm.similarity.sentence.SegmentProxy.Word;
 
@@ -39,20 +37,14 @@ public class Instance {
 			while ((line = in.readLine()) != null) {
 				System.out.println(line);
 				List<Word> words = SegmentProxy.segment(line);
-				for(Word w:words){
-					switch(w.getPos()){
-					case POSTag.ADJ:
-					case POSTag.NOUN:
-					case POSTag.NOUN_ORG:
-					case POSTag.NOUN_PERSON:
-					case POSTag.NOUN_ZHUAN:
-					case POSTag.VERB:
-					case POSTag.VERB_NOUN:
-						bag.add(w.getWord());
-						break;
-					}					
-				}
-			}
+				for(Word w:words) {
+                    if (w.getPos().endsWith("adj")
+                            || w.getPos().startsWith("n")
+                            || w.getPos().startsWith("v")) {
+                        bag.add(w.getWord());
+                    }
+                }
+            }
 		} catch (IOException e) {
 			System.out.println("current file:" + f.getAbsolutePath());
 			System.out.println("current line:" + line);

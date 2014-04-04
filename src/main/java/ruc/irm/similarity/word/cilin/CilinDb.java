@@ -8,10 +8,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ruc.irm.similarity.util.FileUtils;
 import ruc.irm.similarity.util.TraverseEvent;
 
@@ -23,7 +21,7 @@ import ruc.irm.similarity.util.TraverseEvent;
  */
 public class CilinDb {
 	/** the logger */
-	protected static Log LOG = LogFactory.getLog(CilinDb.class);
+	protected static Logger LOG = LoggerFactory.getLogger(CilinDb.class);
 	/** 以词语为主键的索引表 */
 	private Map<String, Set<String>> wordIndex = new HashMap<String, Set<String>>();
 	/** 以编码为主键的索引表 */
@@ -36,7 +34,7 @@ public class CilinDb {
 			try {
 				instance = new CilinDb();
 			} catch (IOException e) {
-				LOG.error(e);
+				LOG.error(e.toString());
 			}
 		}
 		return instance;

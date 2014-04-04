@@ -5,9 +5,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ruc.irm.similarity.Similaritable;
 import ruc.irm.similarity.util.BlankUtils;
 import ruc.irm.similarity.util.FileUtils;
@@ -27,12 +26,12 @@ import ruc.irm.similarity.word.hownet.sememe.SememeParser;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
- * @see ke.commons.similarity.Similariable
+ * @see ruc.irm.similarity.Similaritable
  * @deprecated
  */
 public abstract class ConceptParser implements HownetMeta, Similaritable{
 	/** the logger */
-	protected Log LOG = LogFactory.getLog(this.getClass());
+	protected Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	/** 所有概念存放的数组 */
 	private static Concept[] CONCEPTS = null;

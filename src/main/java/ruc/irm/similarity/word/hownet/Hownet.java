@@ -2,10 +2,8 @@ package ruc.irm.similarity.word.hownet;
 
 import java.io.IOException;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ruc.irm.similarity.Similaritable;
 import ruc.irm.similarity.word.hownet2.concept.BaseConceptParser;
 import ruc.irm.similarity.word.hownet2.concept.XiaConceptParser;
@@ -19,11 +17,11 @@ import ruc.irm.similarity.word.hownet2.sememe.BaseSememeParser;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
- * @see ke.commons.similarity.Similariable
+ * @see ruc.irm.similarity.Similaritable
  */
 public class Hownet implements Similaritable{	
 	/** the logger */
-	private static final Log LOG = LogFactory.getLog(Hownet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(Hownet.class);
 	/** 知网的单例 */
 	private static Hownet instance = null;
 	
@@ -35,7 +33,7 @@ public class Hownet implements Similaritable{
 			conceptParser = new XiaConceptParser(sememeParser);
 		} catch (IOException e) {			
 			e.printStackTrace();
-			LOG.error(e);
+			LOG.error(e.toString());
 		}
 	}
 	
