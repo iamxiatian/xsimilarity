@@ -23,6 +23,8 @@ import org.ansj.splitWord.analysis.ToAnalysis;
  * 对词法分析程序的封装代理，目前内部封装了对Ictclas4j（夏天改进版）的调用<br/>
  * 为方便演示程序快速启动，对Segment的调用采用了单例模式，实现需要时的延迟加载。
  *
+ * @CHANGE 2014/04/04 采用Ansj词法分析器取代Ictclas4j-summer version
+ *
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  */

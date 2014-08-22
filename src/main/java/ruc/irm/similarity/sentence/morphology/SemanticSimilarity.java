@@ -12,6 +12,8 @@ import ruc.irm.similarity.word.WordSimilarity;
 import ruc.irm.similarity.word.hownet2.concept.XiaConceptParser;
 
 /**
+ * 基于语义的词形和词序句子相似度计算
+ *
  * 《中文信息相似度计算理论与方法》5.4.3小节所介绍的基于词形和词序的句子相似度计算算法
  * 在考虑语义时，无法直接获取OnceWS(A, B)，为此，通过记录两个句子的词语匹配对中相似度
  * 大于某一阈值的词语对最为相同词语，计算次序相似度。
