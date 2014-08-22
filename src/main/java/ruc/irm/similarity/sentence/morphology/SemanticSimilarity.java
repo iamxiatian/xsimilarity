@@ -123,7 +123,7 @@ public class SemanticSimilarity implements SentenceSimilarity {
     		//先挑出相似度最大的一对：<row, column, max_score> 
     		for(int i=0; i<scores.length; i++){
     		    if(firstFlags[i]) continue;
-    			for(int j=0; j<scores.length; j++){
+    			for(int j=0; j<scores[i].length; j++){
     			    if(secondFlags[j]) continue;
     			    
     				if(max_score<scores[i][j]){
