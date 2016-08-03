@@ -14,6 +14,32 @@ xsimilarity项目中的理论知识大家可以参考doc目录下的文章，以
 联系方式：xiat(at)ruc.edu.cn
 
 
+编译运行
+=======================
+首先确保系统中安装maven.
+
+如果要生成Intellij IDEA的工程文件，请进入命令行，在项目主目录下执行：
+
+```mvn idea:idea```
+
+如要生成eclipse的工程文件，则执行：
+
+```mvn eclipse:eclipse```
+
+要编译代码并在命令行运行测试：
+
+```mvn compile```
+
+```mvn dependency:copy-dependencies```
+
+```./run.py Start```
+
+即可打开主界面，进行测试
+
+（注：开发测试所用的操作系统为Ubuntu，如为Windows，请自行修改run.py脚本）
+
+
+
 设想
 ========================
 尝试把潜在和显性语义分析技术加入到xsimilarity中，并简化使用方式，方便初学者使用，但因个人精力受限，目前尚为开始集成处理。

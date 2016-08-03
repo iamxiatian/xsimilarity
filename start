@@ -1,3 +1,0 @@
-#!/bin/sh
-X_HOME=/home/xiatian/workspace/study/xsimilarity
-java -Dswing.systemlaf=javax.swing.plaf.metal.MetalLookAndFeel -cp $X_HOME/lib/commons-logging-1.0.4.jar:$X_HOME/lib/log4j-1.2.8.jar:$X_HOME/lib/google-collect-1.0.jar:$X_HOME/lib/ictclas4j.jar:$X_HOME/bin ruc.irm.similarity.MainUI
