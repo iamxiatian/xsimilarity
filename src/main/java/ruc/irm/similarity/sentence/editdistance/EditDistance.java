@@ -1,6 +1,6 @@
 package ruc.irm.similarity.sentence.editdistance;
 
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 
 
 /**
@@ -9,7 +9,7 @@ import ruc.irm.similarity.Similaritable;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  */
-public abstract class EditDistance implements Similaritable {
+public abstract class EditDistance implements Similarity {
         
     public abstract double getEditDistance(SuperString<? extends EditUnit> S, SuperString<? extends EditUnit> T);    
  

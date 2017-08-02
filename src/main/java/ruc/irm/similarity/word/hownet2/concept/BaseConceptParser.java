@@ -15,6 +15,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ruc.irm.similarity.Similarity;
 import ruc.irm.similarity.util.BlankUtils;
 import ruc.irm.similarity.word.WordSimilarity;
 import ruc.irm.similarity.word.hownet.HownetMeta;
@@ -36,7 +37,7 @@ import com.google.common.collect.Multimap;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
- * @see ruc.irm.similarity.Similaritable
+ * @see Similarity
  */
 public abstract class BaseConceptParser implements HownetMeta, WordSimilarity{
 	/** the logger */

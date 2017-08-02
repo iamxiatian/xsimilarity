@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 import ruc.irm.similarity.word.hownet2.concept.BaseConceptParser;
 import ruc.irm.similarity.word.hownet2.concept.XiaConceptParser;
 import ruc.irm.similarity.word.hownet2.sememe.XiaSememeParser;
@@ -17,9 +17,9 @@ import ruc.irm.similarity.word.hownet2.sememe.BaseSememeParser;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
- * @see ruc.irm.similarity.Similaritable
+ * @see Similarity
  */
-public class Hownet implements Similaritable{	
+public class Hownet implements Similarity {
 	/** the logger */
 	private static final Logger LOG = LoggerFactory.getLogger(Hownet.class);
 	/** 知网的单例 */

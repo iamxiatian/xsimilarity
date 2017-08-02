@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ruc.irm.similarity.Similarity;
 import ruc.irm.similarity.sentence.SegmentProxy;
 import ruc.irm.similarity.sentence.SegmentProxy.Word;
 import ruc.irm.similarity.sentence.SentenceSimilarity;
@@ -66,7 +67,7 @@ public class MorphoSimilarity implements SentenceSimilarity {
     
     /**
      * 计算两个句子的相似度
-     * @see ruc.irm.similarity.Similaritable
+     * @see Similarity
      */
     public double getSimilarity(String firstSen,String secondSen){
     	//LOG.debug(segmenter.segmentToString(firstSen));

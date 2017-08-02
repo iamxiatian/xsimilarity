@@ -3,7 +3,7 @@ package ruc.irm.similarity.word;
 import java.util.ArrayList;
 import java.util.List;
 
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 
 
 /**
@@ -12,7 +12,7 @@ import ruc.irm.similarity.Similaritable;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  */
-public class CharBasedSimilarity implements Similaritable {
+public class CharBasedSimilarity implements Similarity {
 
 	private double alpha = 0.6;
 	private double beta = 0.4;

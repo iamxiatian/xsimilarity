@@ -74,6 +74,18 @@ public class SegmentProxy {
         return results;
     }
 
+    public static List<String> segmentAsStrings(String sentence) {
+        List<String> results = new ArrayList<>();
+        List<Term> terms = ToAnalysis.parse(sentence);
+        new NatureRecognition(terms).recognition();
+
+        for (Term term : terms) {
+            results.add(term.getName());
+        }
+
+        return results;
+    }
+
     public static String getSegmentedString(String sentence) {
         List<Word> words = segment(sentence);
         StringBuilder sb = new StringBuilder();

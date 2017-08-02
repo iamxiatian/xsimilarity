@@ -7,7 +7,7 @@ import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 import ruc.irm.similarity.util.BlankUtils;
 import ruc.irm.similarity.util.FileUtils;
 import ruc.irm.similarity.word.hownet.HownetMeta;
@@ -26,10 +26,10 @@ import ruc.irm.similarity.word.hownet.sememe.SememeParser;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
- * @see ruc.irm.similarity.Similaritable
+ * @see Similarity
  * @deprecated
  */
-public abstract class ConceptParser implements HownetMeta, Similaritable{
+public abstract class ConceptParser implements HownetMeta, Similarity {
 	/** the logger */
 	protected Logger LOG = LoggerFactory.getLogger(this.getClass());
 

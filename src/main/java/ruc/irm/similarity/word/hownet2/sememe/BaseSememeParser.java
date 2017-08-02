@@ -12,12 +12,11 @@ import javax.xml.stream.events.XMLEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 import ruc.irm.similarity.word.hownet.HownetMeta;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import sun.rmi.runtime.Log;
 
 /**
  * 义原解析器基类，所有义原存储在xml文件中（当前package中的sememe.xml.tar.gz文件）。<br/>
@@ -28,9 +27,9 @@ import sun.rmi.runtime.Log;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  * 
- * @see {@link ruc.irm.similarity.Similaritable}
+ * @see {@link Similarity}
  */
-public abstract class BaseSememeParser implements HownetMeta, Similaritable {
+public abstract class BaseSememeParser implements HownetMeta, Similarity {
 	protected Logger LOG = LoggerFactory.getLogger(this.getClass());
 
 	/** 所有的义原都存放到一个MultiMap, Key为Sememe的中文定义, Value为义原的Id */

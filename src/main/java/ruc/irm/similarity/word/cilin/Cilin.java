@@ -2,10 +2,10 @@ package ruc.irm.similarity.word.cilin;
 
 import java.util.Set;
 
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 
 
-public class Cilin implements Similaritable {
+public class Cilin implements Similarity {
 	private static Cilin instance = null;
 	
 	public static Cilin getInstance(){

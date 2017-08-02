@@ -60,7 +60,7 @@ public class Start extends JFrame {
 		contentPane.add(scrollPane);
 		
 		this.pack();
-		setExtendedState(MAXIMIZED_BOTH);
+		//setExtendedState(MAXIMIZED_BOTH);
 	}
 
 	public static void InitGlobalFont(Font font) {

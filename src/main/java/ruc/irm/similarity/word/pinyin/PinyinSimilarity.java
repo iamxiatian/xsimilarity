@@ -2,7 +2,7 @@ package ruc.irm.similarity.word.pinyin;
 
 import java.util.Set;
 
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 import ruc.irm.similarity.util.EditDistance;
 import ruc.irm.similarity.util.PinyinUtils;
 
@@ -13,7 +13,7 @@ import ruc.irm.similarity.util.PinyinUtils;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  */
-public class PinyinSimilarity implements Similaritable {
+public class PinyinSimilarity implements Similarity {
 	
 	public double getSimilarity(String item1, String item2) {
 		Set<String> pinyinSet1 = PinyinUtils.getInstance().getPinyin(item1);

@@ -3,7 +3,7 @@ package ruc.irm.similarity.phrase;
 import java.util.ArrayList;
 import java.util.List;
 
-import ruc.irm.similarity.Similaritable;
+import ruc.irm.similarity.Similarity;
 
 /**
  * 一种简单的短语相似度计算方法，算法原理请参考《中文信息相似度计算理论与方法》一书P69.
@@ -11,7 +11,7 @@ import ruc.irm.similarity.Similaritable;
  * @author <a href="mailto:iamxiatian@gmail.com">夏天</a>
  * @organization 中国人民大学信息资源管理学院 知识工程实验室
  */
-public class PhraseSimilarity implements Similaritable {
+public class PhraseSimilarity implements Similarity {
 
 	@Override
 	public double getSimilarity(String item1, String item2) {
