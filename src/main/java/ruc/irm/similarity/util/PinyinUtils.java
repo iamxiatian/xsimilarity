@@ -24,8 +24,7 @@ public class PinyinUtils {
 	
 	private PinyinUtils() throws IOException{
 		//从classpath中加载拼音词典文件
-		String pinyinDictFile = getClass().getPackage().getName().replaceAll("\\.", "/") + "/F02-GB2312-to-PuTongHua-PinYin.txt";
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream(pinyinDictFile);
+		InputStream input = this.getClass().getResourceAsStream("/data/F02-GB2312-to-PuTongHua-PinYin.txt");
 		
 		BufferedReader in = new BufferedReader(new InputStreamReader(input,	"UTF-8"));
 		String line = null;

@@ -41,8 +41,7 @@ public class CilinDb {
 	}
 	
 	private CilinDb() throws IOException{
-		String cilinFile = getClass().getPackage().getName().replaceAll("\\.", "/") + "/cilin.db.gz";
-		InputStream input = new GZIPInputStream(this.getClass().getClassLoader().getResourceAsStream(cilinFile));
+		InputStream input = new GZIPInputStream(this.getClass().getResourceAsStream("/data/cilin.db.gz"));
 		
 		TraverseEvent<String> event = new TraverseEvent<String>(){
 			@Override

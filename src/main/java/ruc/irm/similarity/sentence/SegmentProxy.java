@@ -15,8 +15,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.ansj.domain.Result;
 import org.ansj.domain.Term;
-import org.ansj.recognition.NatureRecognition;
 import org.ansj.splitWord.analysis.ToAnalysis;
 
 /**
@@ -64,11 +64,10 @@ public class SegmentProxy {
 
     public static List<Word> segment(String sentence) {
         List<Word> results = new ArrayList<Word>();
-        List<Term> terms = ToAnalysis.parse(sentence);
-        new NatureRecognition(terms).recognition();
+        Result terms = ToAnalysis.parse(sentence);
 
         for (Term term : terms) {
-            results.add(new Word(term.getName(), term.getNatrue().natureStr));
+            results.add(new Word(term.getName(), term.natrue().natureStr));
         }
 
         return results;

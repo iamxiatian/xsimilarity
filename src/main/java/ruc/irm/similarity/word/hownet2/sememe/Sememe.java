@@ -30,8 +30,6 @@ public class Sememe {
 	 * <br/>把相应的部分赋予不同的属性
 	 * 出于性能考虑，把未用到的英文名称、定义等忽略
 	 * @param id
-	 * @param parentId
-	 * @param item 读取文件中的一行
 	 */
 	public Sememe(String id, String en, String cn, String define) {
 		this.id = id;

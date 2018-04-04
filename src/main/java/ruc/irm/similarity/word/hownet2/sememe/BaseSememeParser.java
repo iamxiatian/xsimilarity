@@ -17,7 +17,6 @@ import ruc.irm.similarity.word.hownet.HownetMeta;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import sun.rmi.runtime.Log;
 
 /**
  * 义原解析器基类，所有义原存储在xml文件中（当前package中的sememe.xml.tar.gz文件）。<br/>
@@ -43,8 +42,7 @@ public abstract class BaseSememeParser implements HownetMeta, Similaritable {
 
 		SEMEMES = HashMultimap.create();
 
-		String sememeFile = getClass().getPackage().getName().replaceAll("\\.", "/") + "/sememe.xml.gz";
-		InputStream input = this.getClass().getClassLoader().getResourceAsStream(sememeFile);
+		InputStream input = this.getClass().getResourceAsStream("/data/sememe.xml.gz");
 		input = new GZIPInputStream(input);
 		load(input);
 	}

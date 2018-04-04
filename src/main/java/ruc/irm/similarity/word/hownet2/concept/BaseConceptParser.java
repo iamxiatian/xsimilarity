@@ -76,8 +76,7 @@ public abstract class BaseConceptParser implements HownetMeta, WordSimilarity{
 	
 	private static void firstLoad() throws IOException{
 		CONCEPTS = HashMultimap.create();
-		String conceptFile = BaseConceptParser.class.getPackage().getName().replaceAll("\\.", "/") + "/concept.xml.gz";
-		InputStream input = BaseConceptParser.class.getClassLoader().getResourceAsStream(conceptFile);
+		InputStream input = BaseConceptParser.class.getResourceAsStream("/data/concept.xml.gz");
 		input = new GZIPInputStream(input);
 		load(input);
 	}
